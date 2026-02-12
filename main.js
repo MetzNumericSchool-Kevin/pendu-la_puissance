@@ -108,3 +108,11 @@ document.querySelector("dialog button").addEventListener("click", () => {
 document.querySelector("#new-game").addEventListener("click", () => {
     window.location.reload()
  } )
+
+ document.querySelector("#reset").addEventListener("click", () => {
+    window.localStorage.setItem("chaineVictoires", 0)
+    window.localStorage.setItem("record", 0)
+    victoires = 0
+    record = 0
+    document.querySelector("#record").textContent = "-"
+ } )
