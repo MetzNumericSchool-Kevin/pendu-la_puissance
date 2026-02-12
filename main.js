@@ -11,20 +11,11 @@ const bonMot = []
 const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
 let erreur = 0
-//let stockage = localStorage
 let victoires = parseInt(window.localStorage.getItem("chaineVictoires") || 0)
 console.log(`valeur de victoire : ${victoires}`)
 let record = parseInt(window.localStorage.getItem("record") || 0)
 console.log(`valeur de record : ${record}`)
 
-//window.localStorage.setItem("chaineVictoires", 0)
-//window.localStorage.setItem("record", 0)
-
-// function createPlaceholder(zone, classe="i"){
-//     const newPlaceholder =  document.createElement('span')
-//     zone.appendChild(newPlaceholder)
-//     newPlaceholder.classList.add(classe)
-// }
 
 for (let i = 0; i < motChoisi.length; i++){
     const newPlaceholder =  document.createElement('span')
@@ -55,9 +46,13 @@ addEventListener('keydown', function(e){
     
         zoneEssais.querySelector("span:last-child").innerHTML +=`${e.key}`
         if (motChoisi.indexOf(e.key) == -1){
+            zoneEssais.querySelector("span:last-child").classList.add("rouge")
             erreur += 1
             document.querySelector(`#hangman>g:nth-child(${erreur+1})`).classList.remove('hidden')
             document.querySelector("#errors").textContent = `${erreur}/5`
+        }
+        else{
+            zoneEssais.querySelector("span:last-child").classList.add("vert")
         }
         
         if (erreur >= 5){
@@ -69,12 +64,8 @@ addEventListener('keydown', function(e){
         }
         
         for (let i = 0; i < motChoisi.length; i++){
-            if (e.key != motChoisi[i] ) {
-                zoneEssais.querySelector("span:last-child").classList.add("rouge")
-
-            } else {
-              
-                zoneEssais.querySelector("span:last-child").classList.add("vert")
+            if (e.key == motChoisi[i] ) {
+                //zoneEssais.querySelector("span:last-child").classList.add("vert")
                 //console.log("bonne lettre")
 
                 bonMot.push(e.key)
