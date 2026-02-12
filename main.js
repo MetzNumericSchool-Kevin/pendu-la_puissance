@@ -1,34 +1,44 @@
-
-
-
+let jeuTermine = false
 const motsADeviner = ["lapin", "chat", "chien", "loup", "tortue"]
-
 const motChoisi = motsADeviner[Math.round(Math.random()*4)]
 
 const zonePlaceholder = document.querySelector("#word-display")
 const zoneEssais = document.querySelector("#letters-used")
+const lettersUsed = document.querySelector("#letters-used")
 
-function createPlaceholder(zone, classe="i"){
-    const newPlaceholder =  document.createElement('span')
-    zone.appendChild(newPlaceholder)
-    newPlaceholder.classList.add(classe)
-}
+const controleLettres = new Set()
+const bonMot = []
+const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+
+let erreur = 0
+//let stockage = localStorage
+let victoires = parseInt(window.localStorage.getItem("chaineVictoires") || 0)
+console.log(`valeur de victoire : ${victoires}`)
+let record = parseInt(window.localStorage.getItem("record") || 0)
+console.log(`valeur de record : ${record}`)
+
+//window.localStorage.setItem("chaineVictoires", 0)
+//window.localStorage.setItem("record", 0)
+
+// function createPlaceholder(zone, classe="i"){
+//     const newPlaceholder =  document.createElement('span')
+//     zone.appendChild(newPlaceholder)
+//     newPlaceholder.classList.add(classe)
+// }
 
 for (let i = 0; i < motChoisi.length; i++){
-    //createPlaceholder(zonePlaceholder,'letter-placeholder')
     const newPlaceholder =  document.createElement('span')
     zonePlaceholder.appendChild(newPlaceholder)
     newPlaceholder.classList.add('letter-placeholder')
     console.log(i)      
 }
 
-const lettersUsed = document.querySelector("#letters-used")
+document.querySelector("#record").textContent = window.localStorage.getItem("record")
 
-const controleLettres = new Set()
-const bonMot = []
-const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-let erreur = 0
 addEventListener('keydown', function(e){
+    if (jeuTermine) {
+        return
+    }
     console.log(motChoisi)
     //if (e.key.length == 1 )){
     if (alphabet.indexOf(e.key) != -1){
@@ -47,11 +57,15 @@ addEventListener('keydown', function(e){
         if (motChoisi.indexOf(e.key) == -1){
             erreur += 1
             document.querySelector(`#hangman>g:nth-child(${erreur+1})`).classList.remove('hidden')
+            document.querySelector("#errors").textContent = `${erreur}/5`
         }
         
         if (erreur >= 5){
-            alert(`Fin du jeu, le bon mot était ${motChoisi} !`)
-            //exit
+            jeuTermine = true
+            document.querySelector("#game-over-modal  p").textContent = `Vous avez perdu, le bon mot était ${motChoisi}...`
+            document.querySelector("#game-over-modal").showModal()
+            window.localStorage.setItem("chaineVictoires", 0)
+            console.log(`valeur de victoire : ${victoires}`)
         }
         
         for (let i = 0; i < motChoisi.length; i++){
@@ -74,10 +88,23 @@ addEventListener('keydown', function(e){
     }
     
     if (motChoisi.length === bonMot.length) {
-        alert(`Bravo ! Le bon mot était bien ${motChoisi}`)
+            jeuTermine = true
+            document.querySelector("#game-over-modal  p").textContent = `Bravo ! le mot à deviner était bien ${motChoisi} ! 👏`
+            document.querySelector("#game-over-modal").showModal()
+            victoires += 1
+            console.log(`valeur de victoire : ${victoires}`)
+            window.localStorage.setItem("chaineVictoires", victoires)
+            if (victoires > record){
+                record = victoires
+                window.localStorage.setItem("record", record)
+            }
     }  
     })
-//document.querySelector(".letter-placeholder:first-child").textContent = "b"
 
+document.querySelector("dialog button").addEventListener("click", () => {
+    window.location.reload()
+ } )
 
-// && !controleLettres.has(e.key)
+document.querySelector("#new-game").addEventListener("click", () => {
+    window.location.reload()
+ } )
