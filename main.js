@@ -112,3 +112,4 @@ document.querySelector("#new-game").addEventListener("click", () => { // si on c
 
 
  // test branches git
+// test merge franck
