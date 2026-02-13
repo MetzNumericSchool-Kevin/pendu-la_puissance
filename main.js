@@ -108,3 +108,5 @@ document.querySelector("#new-game").addEventListener("click", () => { // si on c
     record = 0
     document.querySelector("#record").textContent = "-"
  } )
+
+ // test branche amina
