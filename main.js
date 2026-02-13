@@ -29,7 +29,8 @@ for (let i = 0; i < motChoisi.length; i++){
 }
 
 // apparition de la valeur de record : soit 0 au tout début ou quand on reset de record, ou alors la valeur prise au cours des parties jouées
-document.querySelector("#record").textContent = window.localStorage.getItem("record")
+// document.querySelector("#record").textContent = window.localStorage.getItem("record")
+document.querySelector("#record").textContent = record
 
 // écouteur d'évènement focalisé sur la saisie sur clavier
 addEventListener('keydown', function(e){
