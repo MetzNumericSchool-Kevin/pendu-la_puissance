@@ -110,3 +110,4 @@ document.querySelector("#new-game").addEventListener("click", () => { // si on c
  } )
 
  // test branche amina
+ // test conflit sur branche amina
